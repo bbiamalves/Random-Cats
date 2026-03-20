@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Cats</title>
+
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      text-align: center;
+    }
+
+    img {
+      max-width: 400px;
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    #error {
+      color: red;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Gatinho aleatório</h1>
+
+  <img id="cat" alt="Imagem de gatinho" />
+  <p id="error"></p>
+
+  <script>
+    async function getCat() {
+      const errorMsg = document.getElementById('error');
+      const catImg = document.getElementById('cat');
+
+      try {
+        const response = await fetch('https://api.thecatapi.com/v1/images/search');
+
+        if (!response.ok) {
+          throw new Error("Erro na requisição");
+        }
+
+        const data = await response.json();
+
+        catImg.src = data[0].url;
+        errorMsg.textContent = ""; 
+
+      } catch (error) {
+        errorMsg.textContent = "Ops! Não foi possível carregar o gatinho";
+        catImg.style.display = "none";
+      }
+    }
+
+    getCat();
+  </script>
+
+</body>
+</html>
